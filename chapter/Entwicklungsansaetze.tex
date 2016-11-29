@@ -1,0 +1,87 @@
+\chapter{Entwicklungsansätze mobiler Applikationen}
+\label{chap:entwicklungsansaetze}
+% Ansatz: Summe ca. 4 Seiten
+%
+Im laufe der letzten Jahre haben sich verschiedene grundsätzliche Ansätze für die Entwicklung mobiler Applikationen durchgesetzt. Bei der Wahl eines dieser Ansätze müssen verschiedene Anforderungen an die mobile Applikation betrachtet werden. Zunächst muss betrachtet werden, welches Betriebssystem die App unterstützen soll. Dabei haben sich im laufe der letzten Jahre die Betriebssysteme iOS und Android durchgesetzt. Im dritten Quartal 2016 hatte iOS einen weltweiten Marktanteil von 12.1~\% und Android einen Marktanteil von 87.5~\% \cite{strategyAnalyticsMarktanteile}. Da die beiden Betriebssysteme somit einen gemeinsamen weltweiten Marktanteil von 99,6~\%  bilden spielen die weiteren Systeme Windows Phone und Blackberry OS nur eine sehr untergeordnete Rolle und werden im folgenden nicht weiter betrachtet.
+
+Eines der Ziele einer mobilen Applikation ist es, eine für die Plattform typische Benutzererfahrung zu schaffen und keine großen Irritationen zu verursachen. Dies muss natürlich bei der Umsetzung beachtet werden.
+
+Zur Entwicklung mobiler Applikationen gibt es grundsätzlich drei verschiedene Ansätze, die sich folgendermaßen charakterisieren lassen:
+\begin{itemize}
+    \item Native Entwicklung der Applikation in der nativen Programmiersprache, die ursprünglich für die Entwicklung auf dieser Plattform vorgesehen war
+    \item Übergreifende Entwicklung durch webbasierte Anwendungsplattformen
+    \item Übergreifende Entwicklung mittels Hybrider Frameworks
+\end{itemize}
+%
+% --------------------------------------------------------------------------------------------
+%
+\section{Native Applikationen}
+\label{sec:nativeApplikationen}
+%
+Unter nativer Anwendungsentwicklung versteht man die direkte Entwicklung für eine Plattform in der jeweiligen Programmiersprache. Bei iOS ist die native Programmiersprache Objective-C bzw. zunehmend Swift. Für Android wird nativ in Java programmiert. Ein großer Vorteil nativer Applikationen ist die hohe performanz. Da iOS und Android verschiedene native Programmiersprachen haben müssen also zwei unterschiedliche Applikationen geschrieben werden, was den Entwicklungsaufwand massiv erhöht.
+Neben der nativen Programmiersprache liefern die Plattformen auch hauseigene Entwicklungswerkzeuge. Für die iOS-Plattform gibt es die Entwicklungsplattform XCode, für Android wird das Android Studio bereitgestellt. Neben der nativen Programmiersprache spielen jedoch die Frameworks und Programmierschnittstellen, die APIs ("Application Programming Interface") eine wichtige Rolle, da diese es erlauben, Zugriff auf die Hardware des Gerätes zu nehmen. So kann mit wenig Aufwand Zugriff auf Kamera, GPS-Modul oder die verschiedenen Sensoren des mobilen Endgerätes genommen werden. Zudem kann je nach System Zugriff genommen werden auf die geschützten Daten des Gerätes wie Kalender oder Adressbuch des Nutzers. Unter iOS werden all diese Frameworks unter Cocoa Touch zusammengefasst.
+
+Nativ entwickelte Apps lassen sich im jeweiligen App Store veröffentlicht und vertrieben werden. Zudem regelt der App Store die Möglichkeit updates der Software veröffentlichen zu können. Apple unterzieht dabei die auf ihrer Plattform zu veröffentlichende Software einem Prüfverfahren, um enge Qualitätsstandards zu gewährleisten. \cite{appleReview} 
+%
+\subsection{Vorteile}
+%
+Durch die Veröffentlichungsmöglichkeit in App Stores wird eine direkte Vertriebsmöglichkeit der eigenen Software geboten. Durch die Qualitätskontrollen im App Store werden Applikationen mit schwerwiegenden Mängeln aussortiert und schützen die Anwender.
+
+Die nativen Bibliotheken schaffen eine plattformspezifische Nutzungserfahrung, die von reinen Webseiten oftmals nicht erreicht werden kann. Die nativen Frameworks liefern dem Nutzer zudem die Möglichkeit auf Bereiche der mobilen Plattform oder Sensoren der Hardware zuzugreifen, auf die Web-Applikationen keinen Zugriff haben.
+
+Da native Programme die volle Hardwareleistung des Gerätes nutzen können ermöglichen diese weit rechenintensivere Anwendungen. So können 3D-Spiele oder Simmulationen berechnet werden, die in einer Web-App oder Hybriden App nicht möglich wären.
+%
+\subsection{Nachteile}
+%
+Bei nativer Softwareentwicklung muss für jede Plattform eine eigene Anwendung programmiert werden, was die Entwicklungskosten massiv erhöht. Da plattformspezifische Frameworks verwendet werden ist eine gemeinsame Benutzererfahrung zudem erschwert. Bei einer Aktualisierung der App muss stets ein Update über den App Store erfolgen, welche nur durch den Nutzer initialisiert werden.
+
+Die Entwicklung nativer iOS Apps ist zudem mit dem Nachteil verbunden, dass diese nur auf Macs möglich ist, da nur hier der Code kompilliert werden kann. Die Nutzung des App Stores ist mit Gebühren verbunden, die bei Apple 99~\$ pro Jahr betragen. 
+%
+% --------------------------------------------------------------------------------------------
+%
+\section{Mobile Web-Applikationen}
+\label{mobileWebApplikationen}
+%
+Unter einer mobilen Web-Applikation versteht man eine Applikation, die ausschließlich im Browser des Smartphones ausgeführt wird. Die Anwendung wird dabei mit allen benötigten Daten wie HTML-Dateien, Bildern oder CSS-Stylesheets von einem Webserver geladen und  mittels HTTP-Protokoll an den Client übertragen. Im Gegensatz zu statischen Websites sind Webapplikationen dynamischer Natur. Der Nutzer kann mit der Seite interagieren. Ermöglicht wird dies durch den Einsatz von Skriptsprachen wie JavaScript. Mobile Webapplikationen sind an die Anforderungen einer mobilen Plattform angepasst und opimiert. So wird das Layout an die kleine Bildschirmgröße angepasst ("Responsive Design") und Eingaben sind auf Touch-Events optimiert. Im Idealfall wird zudem das Design (CSS-Bibliotheken) und das Verhalten der dynamischen Website soweit angepasst, dass kaum von nativen Applikation unterschieden werden kann. 
+
+Neben der Möglichkeit die Webseite über den Browser aufzurufen bietet iOS die Möglichkeit, ein Lesezeichen der Web-App auf dem Startbildschirm zu hinterlegen. So entsteht verstärkt der Eindruck einer wirklichen App, obwohl in Wirklichkeit nur ein Browserfenster in Vollbildschirm geöffnet wird. \cite{safariRef}
+%
+\subsection{Vorteile}
+%
+Durch eine völlig plattformunabhängige Entwicklung kann derselbe Code auf allen Plattformen ausgeliefert werden. Zudem kann Code aus Desktop-Webanwendungen nach Designanpassung auf die mobile Webanwendung übertragen werden. Da die Distribution der App hier vollkommen vom Server des Herstellers und unabhängig von einem App Store kommt ist auch sichergestellt, dass immer die neueste Version auf dem Gerät des Anwenders angezeigt wird. Durch die Nutzung von modernen HTML5-Standards, die bei modernen Smartphone Webbrowsern unterstützt werden können auch (zwar in geringem Maße) native Hardwarekomponenten wie die GPS-Position des Gerätes genutzt werden. \cite{browserGPS}
+
+%
+\subsection{Nachteile}
+%
+Ein Nachteil mobiler Webentwicklung ist die möglicherweise unterschiedliche interpretation des Codes. Browser verschiedener mobiler Plattformen haben ein unterschiedliches HTML-Rendering oder verwenden verschiedene JavaScript Engines.
+
+Ein weiterer gravierender Nachteil ist die nicht ausreichende Unterstützung von Hardwareschnittstellen. So können Kamera, Adressbuch oder Kalender nicht angesprochen werden. Speicher, der bei anspruchsvolleren Anwendungen nötig ist kann zudem nicht in beliebiger Menge und auch von Plattform zu Plattform in unterschiedlicher Menge in Anspruch genommen werden. So können in der App generierte Daten nicht persistiert werden. Der Zugriff auf die nativen Bibliotheken des Smartphones sind ebenfalls nicht möglich.
+%
+% --------------------------------------------------------------------------------------------
+%
+\section{Hybride Applikationen}
+\label{sec:HybrideApplikationen}
+%
+Hybride Applikationen bilden einen Kern aus einer nativen Applikation, haben jedoch auch Teile einer Web-Applikation in sich.
+
+In iOS kann dies beispielsweise mittels einem Steuerelement der Klasse UIWebView \cite{uiWebView} umgesetzt werden, das es ermöglicht HTML-Inhalte einer lokal gespeicherten Webseite innerhalb einer nativen App darzustellen und als Container um die Web-App dient. Eine so dargestellte Webseite verfügt über alle im Browser zur Verfügung stehenden Technologien. Neben der in der Webview geladenen Seite besteht eine Hybride App jedoch aus Schnittstellen zu nativen Modulen die aus der Webview, also aus der Webseite heraus angesprochen werden können. So können je nach verwendetem Framework Module zur Verfügung gestellt werden, die die native Funktionalitäten des Smartphones ansprechen. So ist es beispielsweise möglich die Sensoren des Gerätes, die Kamera, Adressbuch oder Kalender anzusprechen. Es ist ebenfalls möglich Pushnotifications über eine entsprechende modulare Schnittstelle des Gerätes zu empfangen.  \todo{...}
+
+Durch den Einsatz moderner Render-Engines kann die Geschwindigkeit der Berechnung von Interpretation des HTML5-, CSS- und JavaScript-Codes und die Geschwindigkeit der Ausführung deutlich erhöht werden. \cite{krausHybrid}
+% https://techcrunch.com/2015/11/19/lessons-in-switching-from-native-to-hybrid-app-development-and-back/
+
+Eine der größten Entwicklungsplattformen für Hybride Apps ist Cordova, auf das in Kapitel \fref{sec:ApacheCordova} näher eingegangen wird.
+%
+\subsection{Vorteile}
+Hybride Applikationen vereinen die Vorteile von nativen, als auch von Web-Apps in sich. Die Entwicklung lässt sich plattformunabhängig gestallten. Es wird eine Web-App erstellt und je nach zu unterstützender Plattform eine Container-App generiert. Wenn native Module des Smartphones angesprochen werden sollen müssen lediglich unterschiedliche Module geladen werden und Fallunterscheidungen getroffen werden.
+
+Durch die Einbindung solcher Module können beliebige Bibliotheken des Betriebssystem nativ genutzt werden. Dies führt zu uneingeschränktem Hardwarezugriff (im Rahmen der Freigabe durch das OS) und somit zu einer nativen User Experience. 
+
+Im Gegensatz zu einer reinen Web-App müssen Appinhalte zudem nicht stets aus dem Netz geladen werden, da sie entweder per Installation mitgeliefert werden oder im für native Apps zugelassenen Dokumentenspeicher abgelegt werden können. Somit ist eine dauerhafte persistierung von Daten möglich.
+
+Entwickler aus verschiedenen Teilen des Unternehmen können so zusammenarbeiten, da die verwendeten Technologien die gleichen sind wie bei Webentwicklung. 
+%
+\subsection{Nachteile}
+%
+Einige der Nachteile nativer Appentwicklung werden jedoch mit übernommen. So muss bei jeder Aktualisierung der App ein Update in den App Store geladen werden. Zudem muss der Review-Prozess des App Stores durchlaufen werden. Es kann also nicht sichergestellt werden, dass die Endanwender immer die neueste Version der App verwenden. 
+
+Werden native Module verwendet muss zudem sichergestellt werden, dass diese für alle unterstützte Plattformen existieren. Die Funktionsweise kann sich also eventuell gravierend unterscheiden.

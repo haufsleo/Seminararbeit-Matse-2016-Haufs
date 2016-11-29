@@ -1,0 +1,33 @@
+\documentclass[ngerman]{scrreprt}
+\input{data/header}
+
+\begin{document}
+
+\include{data/titlepage}
+
+\setcounter{page}{1} 
+\pagenumbering{roman}
+\include{data/persoenlicheerklaerung}
+
+
+\tableofcontents
+
+\include{data/abstract}
+\pagenumbering{arabic}
+
+\setcounter{page}{1} 
+\include{chapter/Einleitung}
+\include{chapter/Entwicklungsansaetze}
+\include{chapter/Ionic_2_Framework}
+\include{chapter/Native_Komponenten}
+\include{chapter/Fazit}
+
+%\begin{thebibliography}{1}	
+%	\bibitem{pomberger} Gustav Pomberger, Heinz Dobler, \textsl{Algorithmen und Datenstrukturen}, 2012	
+%	\bibitem{ottmann} Thomas Ottmann, Peter Widmayer, \textsl{Algorithmen und Datenstrukturen}, 2012
+%\end{thebibliography}
+
+\printbibliography
+\listoffigures
+
+\end{document}

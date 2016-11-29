@@ -1,0 +1,8 @@
+<ion-list>
+    <ion-item *ngFor="#song of songs" (click)="openSong(song)">
+        {{song.artist}} - {{song.title}}
+        <span *ngIf="song.isFavorite">
+            Favorite
+        </span>
+    </ion-item>
+</ion-list>
