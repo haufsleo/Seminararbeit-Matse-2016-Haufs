@@ -1,7 +1,10 @@
 <ion-list>
-    <ion-item *ngFor="#song of songs" (click)="openSong(song)">
-        {{song.artist}} - {{song.title}}
-        <span *ngIf="song.isFavorite">
+    <ion-item *ngFor="#talker of talkers" (click)="goToDetailView(talker)">
+        <ion-thumbnail item-left>
+            <img src={{ talker.imageUrl }}>
+        </ion-thumbnail>
+        {{ talker.name }}
+        <span *ngIf="talker.isFavorite">
             Favorite
         </span>
     </ion-item>

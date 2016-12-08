@@ -1,15 +1,22 @@
 \author{Martin Leonard Haufs}
 
-\usepackage[onehalfspacing]{setspace} % 1.5-facher Zeilenabstand
+% 1.5-facher Zeilenabstand:
+\usepackage[onehalfspacing]{setspace} 
 
 \usepackage[utf8]{inputenc}
 \usepackage[ngerman]{babel}
+
+% Kommentare mit \comment{}-Umgebung
 \usepackage{verbatim}
-\usepackage{csquotes}
-\usepackage[
-backend=biber,
-style=numeric,
-sorting=ynt
+
+% Anführungsstriche mit \enquote{}-Umgebung
+\usepackage[autostyle]{csquotes} 
+
+\usepackage[%
+    backend=biber,
+    style=numeric,
+    %sorting=ynt    % Sortierung nach Name des Autors
+    sorting=none    % Sortierung nach Auftreten
 ]{biblatex}
 \addbibresource{data/bibliography.bib}
 
@@ -44,7 +51,6 @@ sorting=ynt
   morestring=[b]" % defines that strings are enclosed in double quotes
 }
 
-
 \lstset{
 	basicstyle=\footnotesize\ttfamily,
 	showstringspaces=false,
@@ -57,16 +63,7 @@ sorting=ynt
 	belowskip=\bigskipamount
 }
 
-
 \usepackage{minted}
-
-
-
-
-
-
-
-
 \usepackage[german]{fancyref}
 \usepackage{enumitem}
 \usepackage{array}

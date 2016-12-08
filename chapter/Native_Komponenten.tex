@@ -1,18 +1,18 @@
 \chapter{Unterstützung nativer Komponenten in Ionic}
 %
-Cordova- und somit auch Ionic- Apps bieten die Möglichkeit native Funktionalitäten des jeweiligen Betriebssystems mittels Plugins zu erreichen. 
+Cordova- und somit auch Ionic-Apps bieten die Möglichkeit um native Funktionalitäten des jeweiligen Betriebssystems mittels Plugins erweitert zu werden.
 
-Ionic bietet eine ganze Reihe von eigenen nativen Komponenten (Ionic Native) an, die native Funktionalitäten ermöglichen und bereits mitgeliefert werden. Diese müssen lediglich aus der Bibliothek \texttt{ionic-native} importiert werden.
+Ionic bietet eine ganze Reihe von eigenen nativen Komponenten (\emph{Ionic Native}) an, die bereits mitgeliefert werden und nicht extra eingebunden werden müssen, sondern lediglich aus der Bibliothek \texttt{ionic-native} importiert werden müssen.
 
-Ionic bietet zudem einen eigenen Vertriebsmarkt für Plugins an, in dem Entwickler ihre selbst geschriebenen Erweiterungen für Ionic entweder zum kostenfreien download unter einer Open Source Lizenz oder zum kostenpflichtigen verkauf anbieten können. 
+Ionic bietet zudem einen eigenen Vertriebsmarkt für Plugins an, in dem Entwickler ihre selbst geschriebenen Erweiterungen für Ionic entweder zum kostenfreien download unter einer Open Source Lizenz oder zum kostenpflichtigen Verkauf anbieten können. 
 
-Im folgenden soll eine sehr spezielle iOS- Funktionalität, nämlich die Unterstützung einer Kommunikation zwischen einer Ionic-App und einer Apple Watch gezeigt werden.
+Im folgenden soll eine sehr spezielle iOS-Funktionalität, nämlich die Unterstützung einer Kommunikation zwischen einer Ionic-App und einer Apple Watch-Anwendung gezeigt werden.
 %
-\section{Unterstützung von nativen Apple Watch Apps}
+\section{Unterstützung von nativen Apple Watch-Apps}
 %
-Im April 2015 hat Apple die Smart Watch Apple Watch veröffentlicht, die mit sogenannten WatchKit Apps erweitert werden kann. WatchKit Apps gehören jeweils zu einer iOS iPhone App und werden gemeinsam mit dem App-Bundle der iOS App ausgeliefert. Apple Watch Apps lassen sich zum jetzigen Zeitpunkt nicht mit Cordova realisieren, da Webviews für WatchKit Apps nicht Teil der API sind.
-% https://developer.apple.com/watchos/
-Zur Anbindung einer Apple Watch App an eine Cordova-App gibt es ein passendes Open Source Plugin \cite{CrossleyCordovaAppleWatchPlugin}, dessen Verwendung im Folgenden kurz erklärt wird.
+Im April 2015 hat Apple die Smart Watch Apple Watch veröffentlicht, die mit sogenannten WatchKit Apps erweitert werden kann. WatchKit Apps gehören jeweils zu einer iOS iPhone App und werden gemeinsam mit dem App-Bundle der iOS App ausgeliefert \cite{appleAppleWatchProgrammingGuide}. Apple Watch Apps lassen sich zum jetzigen Zeitpunkt nicht mit Cordova realisieren, da sich innerhalb von Watchkit Apps keine Webviews darstellen lassen. Somit ist eine Schnittstelle, wie sie für hybride Apps erforderlich ist, nicht möglich.
+
+Zur Anbindung einer Apple Watch App an eine Cordova-App gibt es ein passendes Open Source Plugin \cite{CrossleyCordovaAppleWatchPlugin}, dessen Verwendung im folgenden kurz erklärt wird.
 
 Das Plugin liefert drei Arten der Kommunikation zwischen iPhone und Apple Watch:
 \begin{itemize}
@@ -21,7 +21,7 @@ Das Plugin liefert drei Arten der Kommunikation zwischen iPhone und Apple Watch:
     \item \emph{User defaults:} Speichern von Daten, die sowohl von der Cordova- als auch von der Apple Watch-App zugänglich sind.
 \end{itemize}
 %
-Der grundlegende Aufbau der Kommunikation zwischen Cordova- und Apple Watch-App ist in \fref{fig:watchPlugin} dargestellt. Das Plugin kommuniziert dabei mit einer iOS Bibliothek namens MMWormhole \cite{gitMMWormhole}. 
+Der grundlegende Aufbau der Kommunikation zwischen Cordova- und Apple Watch-App ist in \fref{fig:watchPlugin} dargestellt. Das Plugin kommuniziert dabei mit einer iOS Bibliothek namens MMWormhole \cite{gitMMWormhole}.
 % https://github.com/20steps/cordova-plugin-watch
 % https://github.com/mutualmobile/MMWormhole
 % https://github.com/leecrossley/cordova-plugin-apple-watch#message-passing
@@ -29,26 +29,29 @@ Der grundlegende Aufbau der Kommunikation zwischen Cordova- und Apple Watch-App 
 %
 \begin{figure}[!htb] 
 	\centering
-	\includegraphics[width=0.9\textwidth]{data/bilder/apple-watch-plugin.png}
+	\includegraphics[width=\textwidth]{data/bilder/apple-watch-plugin.png}
 	\caption{Prinzip der Nachrichtenübermittlung mittels des Watch-Plugins \cite{CrossleyCordovaAppleWatchPlugin}}
 	\label{fig:watchPlugin}
 \end{figure}
 %
-MMWormhole erstellt dabei eine Art Brücke zwischen der App und ihrer Erweiterung mithilfe von App Groups, die Apple seit iOS 8 unterstützt. App Groups bieten mehreren Applikationen eines Entwicklers die Möglichkeit auf gemeinsame Daten zuzugreifen. So können auch Daten zwischen einer Extension und der eigentlichen iOS App ausgetauscht werden, was ansonsten aufgrund des Sandbox-Designs von iOS nicht möglich wäre.
+MMWormhole erstellt dabei eine Brücke zwischen der App und ihrer Erweiterung mithilfe von \emph{App Groups}, die die iOS-Plattform seit Version 8 unterstützt. App Groups bieten mehreren Applikationen eines Entwicklers die Möglichkeit auf gemeinsame Daten zuzugreifen. So können auch Daten zwischen einer Extension und der eigentlichen iOS App ausgetauscht werden, was ansonsten aufgrund des Sandbox-Designs von iOS nicht möglich wäre. Das Watch Plugin steht also über die vom MMWormhole geschaffene Brücke zu gemeinsamem Speicherbereich von Apple Watch- und Ionic-App in einer Art Verbindung und kann so die bereits erwähnten Austauschmethoden anbieten.
 %
 % --------------------------------------------------------------------------------------------
 %
 \subsection{Grundsätzliche Methodik} 
 %
+Sowohl in der Ionic- als auch in der Watch-App muss innnerhalb von XCode die Nutzung einer gemeinsamen App Group mit fester Group Id definiert werden. Dies muss auch bei der Ionic-App manuell geschehen.
+%
 \subsubsection{Ionic-Seite}
 %
-Zunächst muss eine Initialisierungsmethode \texttt{applewatch.init} aufgerufen werden:
+Bevor eine Kommunikation zwischen den beiden Plattformen erfolgen kann muss eine Initialisierung stattfinden. Dazu wird eine Initialisierungsmethode \texttt{applewatch.init} aufgerufen:
 \begin{lstlisting}[language=JavaScript]
 applewatch.init(successHandler, errorHandler, appGroupId);
 \end{lstlisting}
-Dabei wird mittels des optionalen Parameters \texttt{appGroupId} die Application Group Id übergeben, die in XCode zunächst festgelegt werden muss. Dies führt zu einer Bindung zu der in XCode festgelegten Application Group.
+Dabei wird mittels des Parameters \texttt{appGroupId} die Application Group Id übergeben, die in XCode zuvor festgelegt wurde. Dies führt zur Bindung an die in XCode festgelegte Application Group.
 
-Die Methode \texttt{applewatch.sendMessage} ermöglicht es nach erfolgreicher Initialisierung Strings oder JSON-Objekte an die Watch Extension zu senden. JSON-Objekte werden dabei automatisch in Strings umgewandelt.
+Die Methode \texttt{applewatch.sendMessage} ermöglicht es, nach erfolgreicher Initialisierung, Strings oder JSON-Objekte an die Watch App zu senden. JSON-Objekte werden dabei automatisch in Strings umgewandelt. 
+
 \begin{lstlisting}[language=JavaScript]
 applewatch.sendMessage(message, queueName, successHandler, errorHandler);
 \end{lstlisting}
@@ -60,7 +63,7 @@ applewatch.addListener(queueName, messageHandler);
 applewatch.removeListener(queueName, successHandler, errorHandler);
 \end{lstlisting}
 
-Lokale Benachrichtigungen benötigen ebenfalls eine Registrierung. Es muss auf iOS Seite eine Erlaubnis gegeben werden, um lokale Nachrichten zu senden. Erfragt wird diese Erlaubnis mittels der Funktion \texttt{applewatch.registerNotifications}:
+Lokale Benachrichtigungen benötigen ebenfalls eine Registrierung. Dazu wird eine Erlaubnis für den Empfang lokale Nachrichten mittels der Funktion \texttt{applewatch.registerNotifications} erfragt:
 \begin{lstlisting}[language=JavaScript]
 applewatch.registerNotifications(successHandler, errorHandler);
 \end{lstlisting}
@@ -70,6 +73,19 @@ Mithilfe der Funktion \texttt{applewatch.sendNotification} kann nun eine in eine
 \begin{lstlisting}[language=JavaScript]
 applewatch.sendNotification(successHandler, errorHandler, payload);
 \end{lstlisting}
+
+\emph{User defaults} werden dazu genutzt, um Nutzerdaten in Form von einzelnen Key-Value-Paaren zwischen der Watch-Extension und der iOS-App auszutauschen. Mithilfe der Funktion \texttt{sendUserDefaults} kann ein solches Key-Value-Paar gespeichert werden:
+\begin{lstlisting}[language=JavaScript, breaklines=true]
+applewatch.sendUserDefaults(successHandler, errorHandler, 
+    { "myKey": "myValue" }, appGroupId);
+\end{lstlisting}
+Die Funktion \texttt{getUserDefaults} bietet Lesemöglichkeit:
+\begin{lstlisting}[language=JavaScript]
+applewatch.getUserDefaults(successHandler, errorHandler, 
+    "myKey", appGroupId);
+\end{lstlisting}
+%
+\todo{Vollständiges Code-Listing}
 %
 % --------------------------------------------------------------------------------------------
 %
@@ -82,7 +98,7 @@ listeningSession.activateSessionListening();
 let wormhole = MMWormhole(applicationGroupIdentifier: "group.com.yourcompany", optionalDirectory: nil, transitingType: .SessionContext);
 \end{lstlisting}
 
-Die Methoden \texttt{passMessageObject} des MMWormhole- Objektes ermöglicht das Senden von Nachrichten. Mit Hilfe der Funktion \texttt{listenForMessageWithIdentifier} des MMWormholeSession-Objektes kann ein Listener erstellt werden:
+Die Methoden \texttt{passMessageObject} des MMWormhole-Objektes ermöglicht das Senden von Nachrichten. Mit Hilfe der Funktion \texttt{listenForMessageWithIdentifier} des MMWormholeSession-Objektes kann ein Listener erstellt werden:
 \begin{lstlisting}[language=swift, breaklines=true]
 wormhole.passMessageObject("titleString", identifier: "queueName");
 
@@ -92,13 +108,34 @@ listeningSession.listenForMessageWithIdentifier("queueName", listener: { (messag
     }
 });
 \end{lstlisting}
+
+Um auf die \emph{user defaults} auf Apple Watch-Seite zugreifen bietet das Framework die Klasse \texttt{NSUserDefaults}. Der bidirektionale Zugriff lässt sich wie folgt realisieren:
+\begin{lstlisting}[language=swift, breaklines=true]
+let userDefaults = NSUserDefaults(suiteName: "group.com.yourcompany")
+
+var myValue: String? {
+    userDefaults?.synchronize()
+    return userDefaults?.stringForKey("myKey")
+}
+\end{lstlisting}
+%
+\subsubsection{Beschränkung der austauschbaren Datengröße}
+Problematisch ist, dass die Größe der Daten, die mithilfe dieses Plugins ausgetauscht werden können von den vom WatchKit-Framework gesetzten Grenzen für Nachrichten und UserDefaults stark limitiert ist. Eine einzelne Nachricht und jeder einzelne Eintrag in die UserDefaults hat eine maximale Größe von 65.5~KB. \cite{appleWatchPayloadMaximumDatatransfer}. Müssten größere Datenmengen ausgetauscht werden ginge dies nicht mit diesem Plugin. Stattdessen müsste ein Plugin entwickelt werden, was tatsächlichen Dateiaustausch ermöglicht, da für Dateiaustausch keine Beschränkung dieser Art existiert.
 %
 % --------------------------------------------------------------------------------------------
 %
-\subsection{Skizzierung einer möglichen Anwendung bei einer Tagungsapp}
+\subsection{Skizze einer möglichen Anwendung}
 %
-Gegeben sei eine App, in der Inhalte einer Tagung oder Messe dargestellt werden können. Diese App ist vollständig in Ionic geschrieben. Als Datenpersistierung wird eine Web SQL Datenbank verwendet. Diese wird gewrappt mit einer asynchronen objekt-relationalen JavaScript Mapper namens \emph{persistenceJS}, der auf dem Cordova SQLite Plugin aufbaut. In der Tagungsapp werden unter anderem Listen von Vorträgen und Diskussionsbeiträgen mit ihren Detailinformationen aufgelistet. Nutzer können dabei einzelne Beiträge als Favoriten markieren. Zudem können sich einzelne Teilnehmer mit Teilnehmern und Ausstellern verabreden.
+Um die hier beschriebene Funktionalität des Nachrichtenaustausches etwas besser zu verdeutlichen wird im folgenden die Nutzung des Plugins an einem Beispiel beschrieben werden.
 
-In einer möglichen zugehörigen Apple Watch Companion-App sollen ausgewählte Inhalte wie Favorisierte Vorträge oder die Terminabsprachen auf der Watch-App aufgeführt werden. Zu gegebener Zeit soll der Nutzer zudem über ein Notificationsystem innerhalb der Apple Watch an die Termine erinnert werden können.
+Gegeben ist eine App, in der die Inhalte einer Tagung oder Messe dargestellt werden können. Diese App ist vollständig in Ionic geschrieben und liefert bereits einen Mechanismus, um die Daten der Veranstaltung mit einem Server abzugleichen und lokal zu speichern. Als Datenpersistierung wird eine Web SQL Datenbank verwendet. Diese wird gekapselt mit einem asynchronen objekt-relationalen JavaScript Mapper namens \emph{persistenceJS}, der auf dem Cordova SQLite Plugin aufbaut \cite{persistenceJSDoku}. In der Tagungsapp werden unter anderem Listen von Vorträgen und Diskussionsbeiträgen mit ihren Detailinformationen aufgelistet. Nutzer können dabei einzelne Beiträge als Favoriten markieren. Zudem können sich einzelne Teilnehmer mit anderen Teilnehmern und Ausstellern verabreden und Termine verabreden, die anschließend in einem App-eigenen Kalender dargestellt werden.
 
-Dazu muss der Datenaustausch zwischen 
+In einer möglichen zugehörigen Apple Watch Companion-App sollen ausgewählte Inhalte wie favorisierte Vorträge oder die Terminabsprachen auf der Watch-App aufgeführt werden. Zu gegebener Zeit soll der Nutzer zudem über ein Benachrichtigungssystem an die Termine erinnert werden können. Die Apple Watch-App zeigt also einen sehr ausgewählten Teil der Daten der Ionic-App in angemessener Form.
+
+Die wichtigste Kernfunktionalität ist der Datenaustausch zwischen den beiden Plattformen.
+Dieser lässt sich mithilfe des Plugins realisieren. Dazu muss der Datensatz aus der SQLite Datenbank der Ionic-App auf die Kerndaten, die in der Watch-App dargestellt werden sollen, reduziert werden. Anschließend müssen diese Datensätze in Form von JSON-Objekten umgesetzt werden und als String per Nachricht oder über die User defaults an die Apple Watch sendet. Dabei dürfen jedoch nur die nötigsten Daten an im JSON-Objekt gebündelt werden, da die Größe der übermittelten Daten beschränkt ist.
+
+Innerhalb der Apple Watch API gibt es die Klasse \texttt{NSJSONSerialization}, die genutzt werden kann um JSON-Objekte in \texttt{NSDictionary}-Objekte umzuwandeln und die nötigen Informationen für passende Objective~C- oder Swift-Objekte zu erhalten \cite{appleDokuJSONSerialization}. 
+
+Diese können anschließend in nativen Table Views der Apple Watch dargestellt werden.
+\todo{mockup}
