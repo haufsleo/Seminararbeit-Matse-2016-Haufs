@@ -78,7 +78,7 @@ Innerhalb der Typescript-Klasse werden Membervariablen und -funktionen bereitges
 
 HTML5-Templates bilden die View zu einer Component. Mittels Data binding können die Member der Components mit der View verknüpft werden \cite{LynchAngularComponents}. So werden die im Controller hinterlegten Variablen und Funktionen mit der View verknüpft. Durch Event binding werden Elemente einer View mit Angular-Events (z.B. \texttt{focus}, \texttt{blur} und \texttt{click}) oder selbst definierten Events verbunden, die dann Methoden in der jeweiligen Component aufrufen können (vgl. auch  \cite{PrechtAngularTemplateSyntax}).
 
-Angular hat drei Arten von sogenannten directives: die bereits erwähnten Components, structural directives und attribute directives. Eine Component ist dabei nur eine Spezialform einer directive mit einem zugeordneten Template.
+Angular hat drei Arten von sogenannten directives: die bereits erwähnten Components, structural directives und attribute directives. Directives sind Marker auf einem DOM-Element (z.B. Attribut, Elementname oder CSS-Klasse), die dem Angular HTML-Compiler (\emph{\$compile}) mitteilen, dass ein bestimmtes Verhalten mit dem jeweiligen DOM-Element verbunden werden soll. Eine Component ist dabei nur eine Spezialform einer directive mit einem zugeordneten Template.
 
 Mithilfe von \emph{structural directives} können direkte DOM-Manipulationen vorgenommen werden. So gibt es Angularspezifische directives wie beispielsweise die  \texttt{*ngFor}-directive, die wie eine foreach-Schleife einen Container durchlaufen kann und so z.B. schnell eine Tabelle erstellen kann. Ähnlich bedeutend ist die \texttt{*ngIf}-directive mit deren Hilfe selektiv an eine Bedingung geknüpft Elemente erzeugt werden können.
 
@@ -125,6 +125,7 @@ Die hier verwendeten Components \texttt{ion-list}, \texttt{ion-item} sowie \text
 %
 % --------------------------------------------------------------------------------------------
 %
+%\begin{comment}
 
 \section{Struktur eines Ionic 2-Projektes} 
 % https://ionicframework.com/docs/v2/getting-started/tutorial/project-structure/
@@ -148,3 +149,4 @@ Im Ordner \texttt{resources} liegen die für die App nötigen je nach Plattform 
 \subsection*{./assets/}
 Im Ordner \texttt{assets} werden Ressourcen der App bereitgestellt, die bereits zu Beginn zur Verfügung gestellt werden sollen. So können Datenbanken bereitgestellt werden oder Bilder abgelegt werden.
 %
+%\end{comment}

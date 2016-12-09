@@ -29,7 +29,7 @@ Der grundlegende Aufbau der Kommunikation zwischen Cordova- und Apple Watch-App 
 %
 \begin{figure}[!htb] 
 	\centering
-	\includegraphics[width=\textwidth]{data/bilder/apple-watch-plugin.png}
+	\includegraphics[width=0.9\textwidth]{data/bilder/apple-watch-plugin.png}
 	\caption{Prinzip der Nachrichtenübermittlung mittels des Watch-Plugins \cite{CrossleyCordovaAppleWatchPlugin}}
 	\label{fig:watchPlugin}
 \end{figure}
@@ -50,7 +50,7 @@ applewatch.init(successHandler, errorHandler, appGroupId);
 \end{lstlisting}
 Dabei wird mittels des Parameters \texttt{appGroupId} die Application Group Id übergeben, die in XCode zuvor festgelegt wurde. Dies führt zur Bindung an die in XCode festgelegte Application Group.
 
-Die Methode \texttt{applewatch.sendMessage} ermöglicht es, nach erfolgreicher Initialisierung, Strings oder JSON-Objekte an die Watch App zu senden. JSON-Objekte werden dabei automatisch in Strings umgewandelt. 
+Die Methode \texttt{sendMessage} ermöglicht es, nach erfolgreicher Initialisierung, Strings oder JSON-Objekte an die Watch App zu senden. JSON-Objekte werden dabei automatisch in Strings umgewandelt. 
 
 \begin{lstlisting}[language=JavaScript]
 applewatch.sendMessage(message, queueName, successHandler, errorHandler);
@@ -63,13 +63,13 @@ applewatch.addListener(queueName, messageHandler);
 applewatch.removeListener(queueName, successHandler, errorHandler);
 \end{lstlisting}
 
-Lokale Benachrichtigungen benötigen ebenfalls eine Registrierung. Dazu wird eine Erlaubnis für den Empfang lokale Nachrichten mittels der Funktion \texttt{applewatch.registerNotifications} erfragt:
+Lokale Benachrichtigungen benötigen ebenfalls eine Registrierung und eine Erlaubnis für den Empfang lokaler Nachrichten. Dazu wird die Funktion \texttt{registerNotifications} erfragt:
 \begin{lstlisting}[language=JavaScript]
 applewatch.registerNotifications(successHandler, errorHandler);
 \end{lstlisting}
 Wird die Erlaubnis durch den Nutzer erteilt, so wird der \texttt{successHandler} mit true aufgerufen. Sonst wird der \texttt{errorHandler} mit false aufgerufen.
 
-Mithilfe der Funktion \texttt{applewatch.sendNotification} kann nun eine in einem JSON-Objekt (\texttt{payload}) gekapselte Nachricht an die Apple Watch gesendet werden.  
+Mithilfe der Funktion \texttt{sendNotification} kann nun eine in einem JSON-Objekt (\texttt{payload}) gekapselte Nachricht an die Apple Watch gesendet werden.  
 \begin{lstlisting}[language=JavaScript]
 applewatch.sendNotification(successHandler, errorHandler, payload);
 \end{lstlisting}
@@ -119,7 +119,7 @@ var myValue: String? {
 }
 \end{lstlisting}
 %
-\subsubsection{Beschränkung der austauschbaren Datengröße}
+%\subsubsection{Beschränkung der austauschbaren Datengröße}
 Problematisch ist, dass die Größe der Daten, die mithilfe dieses Plugins ausgetauscht werden können von den vom WatchKit-Framework gesetzten Grenzen für Nachrichten und UserDefaults stark limitiert ist. Eine einzelne Nachricht und jeder einzelne Eintrag in die UserDefaults hat eine maximale Größe von 65.5~KB. \cite{appleWatchPayloadMaximumDatatransfer}. Müssten größere Datenmengen ausgetauscht werden ginge dies nicht mit diesem Plugin. Stattdessen müsste ein Plugin entwickelt werden, was tatsächlichen Dateiaustausch ermöglicht, da für Dateiaustausch keine Beschränkung dieser Art existiert.
 %
 % --------------------------------------------------------------------------------------------
@@ -130,12 +130,27 @@ Um die hier beschriebene Funktionalität des Nachrichtenaustausches etwas besser
 
 Gegeben ist eine App, in der die Inhalte einer Tagung oder Messe dargestellt werden können. Diese App ist vollständig in Ionic geschrieben und liefert bereits einen Mechanismus, um die Daten der Veranstaltung mit einem Server abzugleichen und lokal zu speichern. Als Datenpersistierung wird eine Web SQL Datenbank verwendet. Diese wird gekapselt mit einem asynchronen objekt-relationalen JavaScript Mapper namens \emph{persistenceJS}, der auf dem Cordova SQLite Plugin aufbaut \cite{persistenceJSDoku}. In der Tagungsapp werden unter anderem Listen von Vorträgen und Diskussionsbeiträgen mit ihren Detailinformationen aufgelistet. Nutzer können dabei einzelne Beiträge als Favoriten markieren. Zudem können sich einzelne Teilnehmer mit anderen Teilnehmern und Ausstellern verabreden und Termine verabreden, die anschließend in einem App-eigenen Kalender dargestellt werden.
 
-In einer möglichen zugehörigen Apple Watch Companion-App sollen ausgewählte Inhalte wie favorisierte Vorträge oder die Terminabsprachen auf der Watch-App aufgeführt werden. Zu gegebener Zeit soll der Nutzer zudem über ein Benachrichtigungssystem an die Termine erinnert werden können. Die Apple Watch-App zeigt also einen sehr ausgewählten Teil der Daten der Ionic-App in angemessener Form.
+In einer möglichen zugehörigen Apple Watch Companion-App sollen ausgewählte Inhalte wie favorisierte Vorträge oder die Terminabsprachen auf der Watch-App aufgeführt werden. Die Apple Watch-App zeigt also einen sehr ausgewählten Teil der Daten der Ionic-App in angemessener Form. Ein Mockup für eine solche Realisierung ist in \fref{fig:AppleWatchMockup} dargestellt. 
+
+\begin{figure}[htb] 
+	\centering
+	\includegraphics[width=0.6\textwidth]{data/bilder/AppleWatchMockup.pdf}
+	\caption{Mockup einer möglichen Realisierung der Datenrepräsentation in einer Table View der Apple Watch und einer möglichen Detailansicht}
+	\label{fig:AppleWatchMockup}
+\end{figure}
+
+Bei der Konzeption der Apple Watch ist hierbei zu beachten, dass die Smartwatch nur über einen sehr beschränkten Darstellungsbereich verfügt und somit Daten, die auf der Uhr dargestellt werden sollen, auf die wichtigsten Inhalte beschränkt werden müssen. Zudem ist die Eingabe nur über das kleine Display und die \enquote{Digital Crown} sowie den Knopf an der rechten Seite möglich.
 
 Die wichtigste Kernfunktionalität ist der Datenaustausch zwischen den beiden Plattformen.
-Dieser lässt sich mithilfe des Plugins realisieren. Dazu muss der Datensatz aus der SQLite Datenbank der Ionic-App auf die Kerndaten, die in der Watch-App dargestellt werden sollen, reduziert werden. Anschließend müssen diese Datensätze in Form von JSON-Objekten umgesetzt werden und als String per Nachricht oder über die User defaults an die Apple Watch sendet. Dabei dürfen jedoch nur die nötigsten Daten an im JSON-Objekt gebündelt werden, da die Größe der übermittelten Daten beschränkt ist.
+Dieser lässt sich mithilfe des Plugins realisieren. Dazu muss der Datensatz aus der SQLite Datenbank der Ionic-App auf die Kerndaten, die in der Watch-App dargestellt werden sollen, reduziert werden. Anschließend müssen diese Datensätze in Form von JSON-Objekten umgesetzt werden und als String per Nachricht oder über die User defaults an die Apple Watch sendet. Dabei dürfen jedoch nur die nötigsten Daten an im JSON-Objekt gebündelt werden, da die Größe der übermittelten Daten beschränkt ist. Beispielhaft ist dieser Vorgang in Listing \ref{lst:watchCommunicationExample} dargestellt.
+
+\begin{listing}[htb]
+    \lstinputlisting{data/sourcecode/watchCodeExample.ts}
+    \caption{Exemplarischer Datenaustausch für das Tagungsappbeispiel}
+    \label{lst:watchCommunicationExample}
+\end{listing}
 
 Innerhalb der Apple Watch API gibt es die Klasse \texttt{NSJSONSerialization}, die genutzt werden kann um JSON-Objekte in \texttt{NSDictionary}-Objekte umzuwandeln und die nötigen Informationen für passende Objective~C- oder Swift-Objekte zu erhalten \cite{appleDokuJSONSerialization}. 
 
-Diese können anschließend in nativen Table Views der Apple Watch dargestellt werden.
-\todo{mockup}
+Diese können anschließend in nativen Table Views der Apple Watch, wie im Mockup in \fref{fig:AppleWatchMockup} gezeigt, dargestellt werden.
+
