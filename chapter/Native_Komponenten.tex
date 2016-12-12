@@ -2,7 +2,7 @@
 %
 Cordova- und somit auch Ionic-Apps bieten die Möglichkeit um native Funktionalitäten des jeweiligen Betriebssystems mittels Plugins erweitert zu werden.
 
-Ionic bietet eine ganze Reihe von eigenen nativen Komponenten (\emph{Ionic Native}) an, die bereits mitgeliefert werden und nicht extra eingebunden werden müssen, sondern lediglich aus der Bibliothek \texttt{ionic-native} importiert werden müssen.
+Ionic bietet eine ganze Reihe von eigenen nativen Komponenten (\emph{Ionic Native}) an, die bereits mitgeliefert werden und nicht extra eingebunden werden müssen. Diese werden lediglich aus der Bibliothek \texttt{ionic-native} importiert.
 
 Ionic bietet zudem einen eigenen Vertriebsmarkt für Plugins an, in dem Entwickler ihre selbst geschriebenen Erweiterungen für Ionic entweder zum kostenfreien download unter einer Open Source Lizenz oder zum kostenpflichtigen Verkauf anbieten können. 
 
@@ -10,7 +10,7 @@ Im folgenden soll eine sehr spezielle iOS-Funktionalität, nämlich die Unterst�
 %
 \section{Unterstützung von nativen Apple Watch-Apps}
 %
-Im April 2015 hat Apple die Smart Watch Apple Watch veröffentlicht, die mit sogenannten WatchKit Apps erweitert werden kann. WatchKit Apps gehören jeweils zu einer iOS iPhone App und werden gemeinsam mit dem App-Bundle der iOS App ausgeliefert \cite{appleAppleWatchProgrammingGuide}. Apple Watch Apps lassen sich zum jetzigen Zeitpunkt nicht mit Cordova realisieren, da sich innerhalb von Watchkit Apps keine Webviews darstellen lassen. Somit ist eine Schnittstelle, wie sie für hybride Apps erforderlich ist, nicht möglich.
+Im April 2015 hat Apple die Smart Watch Apple Watch veröffentlicht, die mit sogenannten WatchKit Apps erweitert werden kann. WatchKit Apps gehören jeweils zu einer iOS iPhone-App und werden gemeinsam mit dem App-Bundle der iOS-App ausgeliefert \cite{appleAppleWatchProgrammingGuide}. Apple Watch Apps lassen sich zum jetzigen Zeitpunkt nicht mit Cordova realisieren, da sich innerhalb von Watchkit Apps keine Webviews darstellen lassen. Somit ist eine Schnittstelle, wie sie für hybride Apps erforderlich ist, nicht möglich.
 
 Zur Anbindung einer Apple Watch App an eine Cordova-App gibt es ein passendes Open Source Plugin \cite{CrossleyCordovaAppleWatchPlugin}, dessen Verwendung im folgenden kurz erklärt wird.
 
@@ -34,7 +34,7 @@ Der grundlegende Aufbau der Kommunikation zwischen Cordova- und Apple Watch-App 
 	\label{fig:watchPlugin}
 \end{figure}
 %
-MMWormhole erstellt dabei eine Brücke zwischen der App und ihrer Erweiterung mithilfe von \emph{App Groups}, die die iOS-Plattform seit Version 8 unterstützt. App Groups bieten mehreren Applikationen eines Entwicklers die Möglichkeit auf gemeinsame Daten zuzugreifen. So können auch Daten zwischen einer Extension und der eigentlichen iOS App ausgetauscht werden, was ansonsten aufgrund des Sandbox-Designs von iOS nicht möglich wäre. Das Watch Plugin steht also über die vom MMWormhole geschaffene Brücke zu gemeinsamem Speicherbereich von Apple Watch- und Ionic-App in einer Art Verbindung und kann so die bereits erwähnten Austauschmethoden anbieten.
+MMWormhole erstellt dabei eine Brücke zwischen der App und ihrer Erweiterung mithilfe von \emph{App Groups}, die die iOS-Plattform seit Version 8 unterstützt. App Groups bieten mehreren Applikationen eines Entwicklers die Möglichkeit auf gemeinsame Daten zuzugreifen. So können auch Daten zwischen einer Extension und der eigentlichen iOS App ausgetauscht werden, was ansonsten aufgrund des Sandbox-Designs von iOS nicht möglich wäre. Das Watch Plugin steht also über die vom MMWormhole geschaffene Brücke mit dem gemeinsamen Speicherbereich von Apple Watch- und Ionic-App in einer Art Verbindung und kann so die bereits erwähnten Austauschmethoden anbieten.
 %
 % --------------------------------------------------------------------------------------------
 %
@@ -84,8 +84,6 @@ Die Funktion \texttt{getUserDefaults} bietet Lesemöglichkeit:
 applewatch.getUserDefaults(successHandler, errorHandler, 
     "myKey", appGroupId);
 \end{lstlisting}
-%
-\todo{Vollständiges Code-Listing}
 %
 % --------------------------------------------------------------------------------------------
 %
@@ -139,10 +137,10 @@ In einer möglichen zugehörigen Apple Watch Companion-App sollen ausgewählte I
 	\label{fig:AppleWatchMockup}
 \end{figure}
 
-Bei der Konzeption der Apple Watch ist hierbei zu beachten, dass die Smartwatch nur über einen sehr beschränkten Darstellungsbereich verfügt und somit Daten, die auf der Uhr dargestellt werden sollen, auf die wichtigsten Inhalte beschränkt werden müssen. Zudem ist die Eingabe nur über das kleine Display und die \enquote{Digital Crown} sowie den Knopf an der rechten Seite möglich.
+Bei der Konzeption der Apple Watch-App ist darauf zu achten, dass die Smartwatch nur über einen sehr beschränkten Darstellungsbereich verfügt und somit Daten, die auf der Uhr dargestellt werden sollen, auf die wichtigsten Inhalte beschränkt werden müssen. Zudem ist die Eingabe nur über das kleine Display und die \enquote{Digital Crown} sowie den Knopf an der rechten Seite möglich. Apple hat dazu ein eigenes Dokument bereitgestellt, die watchOS Human Interface Guidelines \cite{appleWatchInterfaceGuidelines}, welche Konzeptprinzipien für gut bedienbare Watch-Apps zusammenfassen.
 
 Die wichtigste Kernfunktionalität ist der Datenaustausch zwischen den beiden Plattformen.
-Dieser lässt sich mithilfe des Plugins realisieren. Dazu muss der Datensatz aus der SQLite Datenbank der Ionic-App auf die Kerndaten, die in der Watch-App dargestellt werden sollen, reduziert werden. Anschließend müssen diese Datensätze in Form von JSON-Objekten umgesetzt werden und als String per Nachricht oder über die User defaults an die Apple Watch sendet. Dabei dürfen jedoch nur die nötigsten Daten an im JSON-Objekt gebündelt werden, da die Größe der übermittelten Daten beschränkt ist. Beispielhaft ist dieser Vorgang in Listing \ref{lst:watchCommunicationExample} dargestellt.
+Dieser lässt sich mithilfe des Plugins realisieren. Dazu muss der Datensatz aus der SQLite Datenbank der Ionic-App auf die Kerndaten, die in der Watch-App dargestellt werden sollen, reduziert werden. Anschließend müssen diese Datensätze in Form von JSON-Objekten umgesetzt werden und als String per Nachricht oder über die User defaults an die Apple Watch sendet. Dabei dürfen jedoch nur die nötigsten Daten an im JSON-Objekt gebündelt werden, da die Größe der übermittelten Daten beschränkt ist. Beispielhaft ist dieser Vorgang in Listing \ref{lst:watchCommunicationExample} dargestellt. Dem Codebeispiel liegt zugrunde, dass eine in XCode definierte appGroupId einzigartig ist und eine und über einen Mechanismus wie globale Variable oder einen entsprechenden Mechanismus global verfügbar gemacht wird. Genauso muss auf eine boolsche Variable successfullWatchInit global zugegriffen werden können. 
 
 \begin{listing}[htb]
     \lstinputlisting{data/sourcecode/watchCodeExample.ts}
@@ -150,7 +148,7 @@ Dieser lässt sich mithilfe des Plugins realisieren. Dazu muss der Datensatz aus
     \label{lst:watchCommunicationExample}
 \end{listing}
 
-Innerhalb der Apple Watch API gibt es die Klasse \texttt{NSJSONSerialization}, die genutzt werden kann um JSON-Objekte in \texttt{NSDictionary}-Objekte umzuwandeln und die nötigen Informationen für passende Objective~C- oder Swift-Objekte zu erhalten \cite{appleDokuJSONSerialization}. 
+Innerhalb der Apple Watch API gibt es die Klasse \texttt{NSJSONSerialization}, die genutzt werden kann um JSON-Objekte in \texttt{NSDictionary}-Objekte umzuwandeln und die nötigen Informationen für passende Objective~C- oder Swift-Objekte oder für die Speicherung in einer neuen Datenbankstruktur zu erhalten \cite{appleDokuJSONSerialization}. 
 
-Diese können anschließend in nativen Table Views der Apple Watch, wie im Mockup in \fref{fig:AppleWatchMockup} gezeigt, dargestellt werden.
+Diese Datensätze können anschließend in nativen Table Views der Apple Watch, wie im Mockup in \fref{fig:AppleWatchMockup} gezeigt, dargestellt werden.
 

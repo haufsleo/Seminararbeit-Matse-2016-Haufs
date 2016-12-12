@@ -3,7 +3,7 @@
 \label{cha:ionic}
 %
 Ionic ist unter Open-Source Lizenz (MIT) stehendes HTML5 Framework des Unternehmens Drifty Co. zur Erstellung von Hybrid-Apps. Anfang 2015 wurde die Version 1.0 veröffentlicht, die Version 2.0 steht zum Zeitpunkt der Ausarbeitung dieser Arbeit kurz vor der Veröffentlichung \cite{ionic2Anounce}.
-Ionic erweitert Cordova (\fref{sec:ApacheCordova}) um eigene Bibliotheken und verbindet dieses Framework mit dem Angular-Framework (\fref{sec:Angular}). Ionic ist auf die Verwendung mobiler Geräte mit Touch-Bedienung optimiert Um den look \& feel einer nativen Applikation schaffen liefert Ionic eine eigene Bibliothek an Components und Styles, die sich automatisch unter anderem  durch die Verwendung von Syntactically Awesome Style Sheets (SASS) dem jeweiligen Betriebssystem anpassen.
+Ionic erweitert Cordova (\fref{sec:ApacheCordova}) um eigene Bibliotheken und verbindet dieses Framework mit dem Angular-Framework (\fref{sec:Angular}). Ionic ist auf die Verwendung mobiler Geräte mit Touch-Bedienung optimiert. Um den look \& feel einer nativen Applikation zu ermöglichen liefert Ionic eine eigene Bibliothek an Components und Styles, die sich automatisch unter anderem  durch die Verwendung von Syntactically Awesome Style Sheets (SASS) dem jeweiligen Betriebssystem anpassen.
 %
 % --------------------------------------------------------------------------------------------
 %
@@ -44,7 +44,7 @@ Typescript ist eine von Microsoft entwickelte typisierte Version von ES6, deren 
 
 Typescript erweitert die Funktioinalitäten von ECMAScript~6 unter anderem um das Konzept fester Datentypen und ermöglicht die Definition eigener Datentypen. Datentypen werden dabei zur Compilezeit überprüft.
 
-Wie es aus anderen objektorientierten Programmiersprachen bekannt verfügen Klassen über das Konzept der Vererbung. Neben Klassen können zudem auch Interfaces definiert werden. Klassen, Interfaces, Funktionen und Variablen können in Modulen in eigenen Namensräumen zusammengefasst werden \cite{MicrosoftTypescriptDoku}.
+Wie aus anderen objektorientierten Programmiersprachen bekannt, verfügen Klassen über das Konzept der Vererbung. Neben Klassen können zudem auch Interfaces definiert werden. Klassen, Interfaces, Funktionen und Variablen können in Modulen in eigenen Namensräumen zusammengefasst werden \cite{MicrosoftTypescriptDoku}.
 
 Das Konzept der Typisierung von Variablen, den Parametern und Rückgabewerten von Funktionen und die Definition von Interfaces in Typescript ist in Listing \ref{lst:typescriptExample} an einem minimalen Beispiel gezeigt.
 
@@ -54,25 +54,29 @@ Das Konzept der Typisierung von Variablen, den Parametern und Rückgabewerten vo
     \label{lst:typescriptExample}
 \end{listing}
 
-Wird ein Ionic-Projekt über das Ionic CLI (\enquote{Comand Line Interface}) kompiliert, so findet der sogenannte Transpiling-Vorgang in die vom Browser unterstützte ES5 Version statt. Unter Transpiling wird die Umwandlung von Sourcecode zwischen zwei Programmiersprachen verstanden, die einen ähnlichen Abstraktionslevel besitzen, wohingegen Kompilieren allgemein die Übersetzung von einer Programmiersprache (meist einer high-Level Sprache) in eine andere Sprache (meist eine low-Level Sprache) meint. Transpiling ist also eine spezielle Form des Kompilierens.
+Wird ein Ionic-Projekt über das Ionic CLI (\enquote{Comand Line Interface}) kompiliert, so findet der sogenannte Transpiling-Vorgang in die vom Browser unterstützte ES5 Version statt. Unter Transpiling (auch source-to-source compiling genannt) wird die Umwandlung von Sourcecode zwischen zwei Programmiersprachen verstanden, die einen ähnlichen Abstraktionslevel besitzen, wohingegen Kompilieren allgemein die Übersetzung von einer Programmiersprache (meist einer high-Level Sprache) in eine andere Sprache (meist eine low-Level Sprache) meint. Transpiling ist also eine spezielle Form des Kompilierens \cite{TranspilingVsCompiling}.
 %
 % --------------------------------------------------------------------------------------------
 %
 \section{Angular}
 \label{sec:Angular}
 %
-Angular ist ein von Google entwickeltes clientseitiges JavaScript-Framework zur Erstellung von Single-page-Webanwendungen. Es arbeitet dabei nach dem Model-View-ViewModel Entwurfsmuster. Angular baut dabei auf der Erweiterung des Vokabulars von HTML auf und ermöglicht es, Inhalte in der View ohne eine Manipulation des DOM (Document Object Model) mit JQuery durchführen zu müssen. \todo{quelle!!!}
+Angular ist ein von Google entwickeltes clientseitiges JavaScript-Framework zur Erstellung von Single-page-Webanwendungen. Es arbeitet dabei nach dem Model-View-ViewModel Entwurfsmuster. Angular baut dabei auf der Erweiterung des Vokabulars von HTML auf und ermöglicht es, Inhalte in der View ohne eine Manipulation des DOM (Document Object Model) selbst mit JQuery durchführen zu müssen.
 
 Die hier betrachtete Version von Angular ist die völlig neugeschriebene Version 2, die auf die Entwicklung mobiler Applikationen ausgelegt ist. Angular 2 ist für die Entwicklung mit der Programmiersprache Typescript konzipiert. Die finale Version von Angular 2 wurde im September 2016 veröffentlicht.
 %
 \subsection{Basiskonzepte von Angular 2}
 % \cite{DodsonGuideToWebComponents}
 % https://css-tricks.com/modular-future-web-components/
-Angular 2-Projekte sind in Modulen aufgebaut, die je nach Bedarf geladen werden können. Als Basiselement werden sogenannte Components verwendet. Components sind wiederverwendbare Komponenten, die einen Teil einer View repräsentieren und dazugehörige Controllerlogik in Form einer Typescript-Klasse besitzen. \todo{ok so?}
+Angular 2-Projekte sind in Modulen aufgebaut, die je nach Bedarf mithilfe von imports in andere Typescript-Dokumente geladen werden können. Als Basiselement werden sogenannte Components verwendet. Components sind wiederverwendbare Komponenten, die einen Teil einer View repräsentieren und dazugehörige Controllerlogik in Form einer Typescript-Klasse besitzen.
 
-Vor der eigentlichen Klassendefinition werden Components mittels eines decorators eingeleitet, der der Component zusätzliche Informationen wie das zugeordnete Template, das CSS-Style oder den Selector, über den die Component in HTML angesprochen werden kann, liefert.
-%
-\todo{muss hier ein Beispiel hin?}
+Vor der eigentlichen Klassendefinition werden Components mittels eines decorators eingeleitet, der der Component zusätzliche Informationen wie das zugeordnete Template, das CSS-Style oder den Selector, über den die Component in HTML angesprochen werden kann, liefert. Dieser Mechanismus ist in minimaler Form in Listing \ref{lst:decoratorExample} gezeigt.
+
+\begin{listing}[htb]
+    \lstinputlisting{data/sourcecode/componentDecoratorExample.ts}
+    \caption{Beispiel für einen decorator einer einfachen Component}
+    \label{lst:decoratorExample}
+\end{listing}
 
 Innerhalb der Typescript-Klasse werden Membervariablen und -funktionen bereitgestellt, die aus der View heraus aufgerufen werden können.
 
@@ -82,7 +86,9 @@ Angular hat drei Arten von sogenannten directives: die bereits erwähnten Compon
 
 Mithilfe von \emph{structural directives} können direkte DOM-Manipulationen vorgenommen werden. So gibt es Angularspezifische directives wie beispielsweise die  \texttt{*ngFor}-directive, die wie eine foreach-Schleife einen Container durchlaufen kann und so z.B. schnell eine Tabelle erstellen kann. Ähnlich bedeutend ist die \texttt{*ngIf}-directive mit deren Hilfe selektiv an eine Bedingung geknüpft Elemente erzeugt werden können.
 
-\emph{Attribute directives} ändern das Verhalten oder Aussehen bestehender Elemente. So kann beispielsweise mittels der \texttt{ngModel}-directive ein two-way-data binding mit einem Attribut einer Component realisiert werden.
+\emph{Attribute directives} ändern das Verhalten oder Aussehen bestehender Elemente. So kann beispielsweise mittels der \texttt{ngModel}-directive ein two-way-data binding mit einem Attribut einer Component realisiert werden. 
+%
+\todo{kurz erklären}
 
 Mittels Referenzen auf einzelne Element des DOM können aus einem Element direkt andere Elemente innerhalb der View angesprochen werden.
 
@@ -102,9 +108,7 @@ Das Ionic-Framework liefert eine große Sammlung an Angular 2-Components die sic
 
 Der große Vorteil in der Verwendung des Ionic-Frameworks ist, dass bereits eine große Zahl an Components vorgefertigt sind, die ansonsten zunächst selbst erstellt und gestyled werden müssten. So liefert Ionic bereits viele für mobile Plattformen typische vorgefertigte Steuerelemente wie Buttons, Listen, Eingabefelder, Checkboxen oder ähnlichen für mobile Geräte typischen Komponenten, die zudem ein den nativen Elementen nachempfundenes Verhalten sowie Styling besitzen. All diese Funktionalitäten lassen sich auch ohne das Ionic Framework realisieren, jedoch wäre dies mit einem sehr großen Mehraufwand verbunden. 
 
-Listing \ref{lst:ionicExampleView} zeigt exemplarisch eine typische View-Implementierung einer Liste (Table-View) mittels der \texttt{ion-list}-, \texttt{ion-item}- und \texttt{ion-thumbnail}-Components. \texttt{ion-list} erstellt dabei eine Table-View, \texttt{ion-item} liefert eine einzelne Tabellenzeile und \texttt{ion-thumbnail} bietet die Möglichkeit ein kleines Bild in eine Table-View-Zeile einzubinden.
-
-Dabei werden mittels der Angular Direktive \texttt{*ngFor} Objekte eines Arrays (hier \enquote{talkers}) aufgelistet. Mittels der in geschweiften Klammern geschriebenen One-Way-Databindings kann auf die Attribute des betrachteten Objektes (hier \enquote{\#talker}) der Schleife zugegriffen werden. Die einzelnen \texttt{ion-item}s werden zudem mit einem Click-Event verknüpft, welches hier eine in der Component implementierten Methode \enquote{\texttt{goToDetailView}} aufruft. Die \texttt{*ngIf}-Bedingung sorgt dafür, dass nur bei erfüllter Bedingung das \texttt{<span>}-Element erzeugt wird.
+Listing \ref{lst:ionicExampleView} zeigt exemplarisch eine typische View-Implementierung einer Liste (Table-View) mittels der \texttt{ion-list}-, \texttt{ion-item}- und \texttt{ion-thumbnail}-Components. Die Component \texttt{ion-list} erstellt dabei eine Table-View, \texttt{ion-item} liefert eine einzelne Tabellenzeile und \texttt{ion-thumbnail} bietet die Möglichkeit ein kleines Bild in eine Table-View-Zeile einzubinden.
 
 \begin{listing}[htb]
     \lstinputlisting{data/sourcecode/ionicExample.html}
@@ -112,9 +116,12 @@ Dabei werden mittels der Angular Direktive \texttt{*ngFor} Objekte eines Arrays 
     \label{lst:ionicExampleView}
 \end{listing}
 
+Dabei werden mittels der Angular Direktive \texttt{*ngFor} Elemente eines Arrays (hier \enquote{talkers}) aufgelistet. Mittels der in doppelten geschweiften Klammern geschriebenen One-Way-Databindings kann auf die Attribute des betrachteten Objektes (hier \enquote{\#talker}) der Schleife zugegriffen werden. Die einzelnen \texttt{ion-item}s werden zudem mit einem Click-Event verknüpft, welches hier eine in der Component implementierten Methode \enquote{\texttt{goToDetailView}} aufruft. Die \texttt{*ngIf}-Bedingung sorgt dafür, dass nur bei erfüllter Bedingung das \texttt{<span>}-Element erzeugt wird.
+
 Listing \ref{lst:ionicExampleTs} zeigt die minimal gehaltene Typescript-Component zur HTML-View. Ein Interface \texttt{ITalker} definiert den in der View dargestellten Datentyp. Mittels dependency-injection wird ein externer Service namens \texttt{DatabaseService} eingebunden, der im Konstruktor über die Methode des Services \texttt{getTalkersArray} die darzustellenden das Interface \texttt{ITalker} implementierende Objekte in einem Array liefert. Die in der Component definierte Funktion \texttt{goToDetailView}, welche als Parameter ein Objekt vom zuvor definierten Interfacetyp \texttt{ITalker} erwartet, kann über die View aufgerufen werden.
 
 \begin{listing}[htb]
+    %\lstinputlisting{data/sourcecode/ionicExample.ts}
     \lstinputlisting{data/sourcecode/ionicExample.ts}
     \caption{Beispiel einer einfachen Component-Implementation}
     \label{lst:ionicExampleTs}
@@ -125,7 +132,7 @@ Die hier verwendeten Components \texttt{ion-list}, \texttt{ion-item} sowie \text
 %
 % --------------------------------------------------------------------------------------------
 %
-%\begin{comment}
+\begin{comment}
 
 \section{Struktur eines Ionic 2-Projektes} 
 % https://ionicframework.com/docs/v2/getting-started/tutorial/project-structure/
@@ -149,4 +156,4 @@ Im Ordner \texttt{resources} liegen die für die App nötigen je nach Plattform 
 \subsection*{./assets/}
 Im Ordner \texttt{assets} werden Ressourcen der App bereitgestellt, die bereits zu Beginn zur Verfügung gestellt werden sollen. So können Datenbanken bereitgestellt werden oder Bilder abgelegt werden.
 %
-%\end{comment}
+\end{comment}
